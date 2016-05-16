@@ -22,3 +22,6 @@ RUN set -x \
     && cd testing/archs \
     && mkdir tmp
 
+RUN testexp='dg.exp' \
+    && cd /usr/src/arc/testing/archs \
+    && (runtest $testexp || true)
