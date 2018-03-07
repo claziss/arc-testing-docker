@@ -10,7 +10,10 @@ Prerequisites:
 see: https://github.com/claziss/arc-gnu-docker
 
 2. Valid copy of nSIM or nSIMfree placed into the folder where Dockerfile is
-located. It must be a .tar.gz file having the name support.tar.gz
+located. It must be a .tar.gz file having the name support.tar.gz.
+
+nSIMFree can be downloaded using this form:
+https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi
 
 Building the container:
 
