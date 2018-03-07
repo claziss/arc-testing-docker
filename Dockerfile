@@ -6,8 +6,10 @@ ENV PATH $PATH:/usr/src/arc/INSTALL/bin
 # Set the folder where the compiler sources are.
 ENV COMPSRC /usr/src/arc
 
+COPY support.tar.gz  /usr/src/arc
+
 RUN set -x \
-    && curl -fSL "https://drive.google.com/uc?id=0B047J7MfTwx-Wk9JZXp1VzlUOG8" -o support.tar.gz \
+    && cd /usr/src/arc \
     && tar -xzf support.tar.gz -C /usr/src/arc --strip-components=1 \
     && rm support.tar.gz*
 
@@ -18,10 +20,10 @@ RUN set -x \
     && apt-get update && apt-get install -y dejagnu libc6:i386 libncurses5:i386 libstdc++6:i386 --no-install-recommends \
     && rm -r /var/lib/apt/lists/* \
     && cd /usr/src/arc/ \
-    && git clone --depth 1 https://github.com/claziss/testing.git \
-    && cd testing/archs \
-    && mkdir tmp
+    && mkdir -p  testing/tmp
+
+COPY site.exp /usr/src/arc/testing
 
 RUN testexp='dg.exp' \
-    && cd /usr/src/arc/testing/archs \
+    && cd /usr/src/arc/testing \
     && (runtest $testexp || true)

@@ -1,0 +1,22 @@
+set tmpdir "./tmp"
+set srcdir "$env(COMPSRC)/gcc/gcc/testsuite"
+
+set target_triplet arc-unknown-elf32
+set target_alias arc-elf32
+
+set tool gcc
+set target_list arc-sim-nsimdrv
+
+set CFLAGS ""
+set CXXFLAGS ""
+
+set verbose 0
+
+set arc_board_dir "$env(COMPSRC)/toolchain"
+if ![info exists boards_dir] {
+    lappend boards_dir "$arc_board_dir/dejagnu"
+    lappend boards_dir "$arc_board_dir/dejagnu/baseboards"
+} else {
+    set boards_dir "$arc_board_dir/dejagnu"
+    lappend boards_dir "$arc_board_dir/dejagnu/baseboards"
+}
