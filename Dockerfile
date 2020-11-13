@@ -16,12 +16,17 @@ ENV NSIM_HOME /usr/src/arc/nSIM
 RUN set -x \
     && dpkg --add-architecture i386 \
     && apt-get update && apt-get install -y dejagnu libc6:i386 libncurses5:i386 libstdc++6:i386 --no-install-recommends \
-    && rm -r /var/lib/apt/lists/* \
-    && cd /usr/src/arc/ \
-    && git clone --depth 1 https://github.com/claziss/testing.git \
-    && cd testing/archs \
-    && mkdir tmp
+    && rm -r /var/lib/apt/lists/*
 
-RUN testexp='dg.exp' \
-    && cd /usr/src/arc/testing/archs \
-    && (runtest $testexp || true)
+COPY github_key .
+
+
+RUN eval $(ssh-agent) && \
+    ssh-add github_key && \
+    ssh-keyscan -H github.com >> /etc/ssh/ssh_known_hosts && \
+    cd /usr/src/arc/ && \
+    git clone --depth 10 git@github.com:claziss/testing.git && \
+    cd testing/ && \
+    git config user.email "claziss@gmail.com" && \
+    git config user.name "claziss" && \
+    make -j "$(nproc)"
